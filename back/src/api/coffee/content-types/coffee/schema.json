@@ -1,0 +1,32 @@
+{
+  "kind": "singleType",
+  "collectionName": "coffees",
+  "info": {
+    "singularName": "coffee",
+    "pluralName": "coffees",
+    "displayName": "Coffee"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Time": {
+      "type": "time",
+      "default": "07:45",
+      "required": true,
+      "unique": true
+    },
+    "Cups": {
+      "type": "integer",
+      "max": 12,
+      "required": true,
+      "default": 2,
+      "unique": true
+    },
+    "Brewing": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

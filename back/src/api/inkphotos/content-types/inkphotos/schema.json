@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ink",
+  "info": {
+    "singularName": "inkphotos",
+    "pluralName": "ink",
+    "displayName": "Ink",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "photos": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

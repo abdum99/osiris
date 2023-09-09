@@ -63,8 +63,6 @@ export const LoginPage: React.FC<LoginProps> = ({
         v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
     });
 
-    const PageTitle = null;
-
     const CardTitle = (
         <Title
             level={3}

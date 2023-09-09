@@ -36,6 +36,10 @@ import {
   CategoryShow,
 } from "./pages/categories";
 
+import {
+    ValPage
+} from "./pages/val";
+
 function App() {
   const { t, i18n } = useTranslation();
 
@@ -105,6 +109,7 @@ function App() {
                   index
                   element={<NavigateToResource resource="blog-posts" />}
                 />
+                <Route path="/val" element={ <ValPage />} />
                 <Route path="/blog-posts">
                   <Route index element={<BlogPostList />} />
                   <Route path="create" element={<BlogPostCreate />} />
@@ -142,6 +147,7 @@ function App() {
                 />
                 <Route
                   path="/guestlogin"
+                // @ts-ignore
                   element={<AuthPage type="guestlogin" />}
                 />
                 <Route

@@ -1,0 +1,2 @@
+export const API_URL = "http://localhost:1337";
+export const TOKEN_KEY = "092a59c7d1fb0edcca3481271a0946ab8db99dd9bdb78fd3540c92fe0428bdca00a0969668abc3afaecfb66d71a23c9213ebeaabd4bebd513ffd40724b75dd01fd5d9bd26e1283f87f328a6f5b445866dd29bb93e831532d33e9b93406a8086f086c3d3bbaf31556c842fadd0f6de3ef068341ab6e39b2c95e76e53537fa3550";

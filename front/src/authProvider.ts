@@ -19,7 +19,12 @@ export const authProvider: AuthBindings = {
         "Authorization"
       ] = `Bearer ${data.jwt}`;
 
-      return {
+      return (username === "val")?
+          {
+          success: true,
+          redirectTo: "/val"
+      } :
+          {
         success: true,
         redirectTo: "/",
       };

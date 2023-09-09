@@ -24,7 +24,9 @@ export const AuthPage: React.FC<AuthProps> = (props) => {
     const { type } = props;
     const renderView = () => {
         switch (type) {
+            // @ts-ignore
             case "guestlogin":
+                // @ts-ignore
                 return <GuestLoginPage {...props} />;
             default:
                 return <LoginPage {...props} />;

@@ -143,7 +143,14 @@ export const GuestLoginPage: React.FC<LoginProps> = ({
                 {...formProps}
             >
                 <Form.Item
-                    name="guest_token"
+                    name="username"
+                    hidden
+                    // rules={[{  }]}
+                >
+                    <Input type="hidden" value="guest" />
+                </Form.Item>
+                <Form.Item
+                    name="password"
                     label={translate("pages.guestlogin.fields.guest_token", "Guest Token")}
                     rules={[{ required: true }]}
                 >

@@ -30,11 +30,15 @@ import {
   BlogPostShow,
 } from "./pages/blog-posts";
 
-import {
-    ValPage
-} from "./pages/val";
+import { ValPage } from "./pages/val";
 import { CoffeePage } from "./pages/Coffee/Coffee";
-import CoffeeOutlined from "@ant-design/icons/lib/icons/CoffeeOutlined";
+import { InkyPage } from "./pages/Inky/Inky";
+
+
+import {
+  CoffeeOutlined,
+  BgColorsOutlined
+} from "@ant-design/icons";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -57,6 +61,16 @@ function App() {
             routerProvider={routerBindings}
             resources={[
               {
+                name: "inky",
+                identifier: "inky",
+                list: "/inky",
+                meta: {
+                  icon: <BgColorsOutlined />,
+                  label: "Inky",
+                  canDelete: false,
+                },
+              },
+              {
                 name: "coffee",
                 identifier: "coffee",
                 list: "/coffee",
@@ -67,7 +81,7 @@ function App() {
                 },
               },
               {
-                name: "plants",
+                name: "Plants",
                 list: "/plants",
                 edit: "/plants/edit/:id",
                 show: "/plants/show/:id",
@@ -102,8 +116,9 @@ function App() {
               >
                 <Route
                   index
-                  element={<NavigateToResource resource="coffee" />}
+                  element={<InkyPage /> }
                 />
+                <Route path="/inky" element={ <InkyPage />} />
                 <Route path="/val" element={ <ValPage />} />
                 <Route path="/coffee" element={ <CoffeePage />} />
                 <Route path="/blog-posts">
@@ -144,7 +159,7 @@ function App() {
                   path="/forgot-password"
                   element={<AuthPage type="forgotPassword" />}
                 />
-              </Route>
+               </Route>
             </Routes>
 
             <RefineKbar />

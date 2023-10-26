@@ -5,6 +5,8 @@ import { Modal, Upload } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 
+import Jimp from 'jimp/es';
+
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -13,8 +15,23 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const uploadPhoto = (file): Promise<string> =>
+const convertBW = (file): Promise<File> => {
+    console.log("Converting Image to B&W");
+}
 
+const prepImage = async (file: RcFile) => {
+    Jimp.read("blah")
+      .then((image) => {
+        console.log("Read file Successfully!");
+      })
+      .catch((err) => {
+        console.log("FAILED");
+        console.log(err);
+      });
+    console.log("prepping image");
+    convertBW(file);
+    return false;
+}
 
 
 export const InkyPage: React.FC = () => {
@@ -50,6 +67,7 @@ export const InkyPage: React.FC = () => {
         <ImgCrop
             quality={ 1 }
             aspect={ 1404 / 1872 }
+            showGrid
         >
         <Upload
             action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
@@ -58,6 +76,7 @@ export const InkyPage: React.FC = () => {
             onPreview={handlePreview}
             onChange={handleChange}
             accept="image/png, image/jpeg"
+            beforeUpload={(file) => prepImage(file, fileList)}
         >
             {fileList.length >= 8 ? null : uploadButton}
         </Upload>

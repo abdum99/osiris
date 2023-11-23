@@ -19,7 +19,7 @@ module.exports = createCoreController('api::inky.inky', ({ strapi }) => ({
             }
         });
 
-        await strapi.service('api::inky.inky').updateInky({ "pic": inky.photos[new_index] });
+        await strapi.service('api::inky.inky').updateInky(inky.photos[new_index]);
 
         return await super.find(ctx);
     }

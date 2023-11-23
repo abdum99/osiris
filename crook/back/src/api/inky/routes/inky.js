@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * inkphotos router
+ * inky router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::inkphotos.inkphotos');
+module.exports = createCoreRouter('api::inky.inky');

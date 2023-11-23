@@ -1,10 +1,10 @@
 {
-  "kind": "collectionType",
-  "collectionName": "ink",
+  "kind": "singleType",
+  "collectionName": "inkies",
   "info": {
-    "singularName": "inkphotos",
-    "pluralName": "ink",
-    "displayName": "Ink",
+    "singularName": "inky",
+    "pluralName": "inkies",
+    "displayName": "inky",
     "description": ""
   },
   "options": {
@@ -12,6 +12,9 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "current_index": {
+      "type": "integer"
+    },
     "photos": {
       "type": "media",
       "multiple": true,

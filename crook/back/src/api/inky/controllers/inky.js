@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * inkphotos controller
+ * inky controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::inkphotos.inkphotos');
+module.exports = createCoreController('api::inky.inky');

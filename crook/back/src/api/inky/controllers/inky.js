@@ -9,7 +9,11 @@ const { createCoreController } = require('@strapi/strapi').factories;
 module.exports = createCoreController('api::inky.inky', ({ strapi }) => ({
     async next(ctx) {
         const inky = await strapi.entityService.findOne('api::inky.inky', 1, {
-            populate: '*'
+            populate: {
+                photos: {
+                    populate: "bmp"
+                }
+            }
         });
 
         const new_index = (inky.current_index + 1) % inky.photos.length
@@ -19,7 +23,7 @@ module.exports = createCoreController('api::inky.inky', ({ strapi }) => ({
             }
         });
 
-        await strapi.service('api::inky.inky').updateInky(inky.photos[new_index]);
+        await strapi.service('api::inky.inky').updateInky(inky.photos[new_index]?.bmp);
 
         return await super.find(ctx);
     }

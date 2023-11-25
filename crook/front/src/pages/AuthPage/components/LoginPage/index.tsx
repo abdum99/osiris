@@ -22,6 +22,7 @@ import {
     Divider,
     FormProps,
     theme,
+    Flex,
 } from "antd";
 import { useLogin, useTranslate, useRouterContext } from "@refinedev/core";
 
@@ -64,6 +65,7 @@ export const LoginPage: React.FC<LoginProps> = ({
     });
 
     const CardTitle = (
+        <Flex vertical justify="center" align="center">
         <Title
             level={3}
             style={{
@@ -73,6 +75,13 @@ export const LoginPage: React.FC<LoginProps> = ({
         >
             {translate("pages.login.title", "Sign in")}
         </Title>
+        <Divider />
+        {/* <Image
+            width={100}
+            src="../../../../../public/images/osiris.png"
+            preview={false}
+        /> */}
+        </Flex>
     );
 
     const renderProviders = () => {
@@ -230,24 +239,26 @@ export const LoginPage: React.FC<LoginProps> = ({
                 justify="center"
                 align="middle"
                 style={{
-                    height: "100vh",
+                    height: "90vh",
                 }}
             >
                 <Col xs={22}>
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            marginBottom: "24px",
-                        }}
-                    >
-                        <Image
-                            width={100}
-                            src="../../../../../public/images/osiris.png"
-                        />
-                    </div>
                     {CardContent}
                 </Col>
+            </Row>
+            <Row
+                justify="center"
+                align="middle"
+                style={{
+                    height: "10vh",
+                }}
+
+            >
+        <Image
+            width={50}
+            src="../../../../../public/images/osiris.png"
+            preview={false}
+        />
             </Row>
         </Layout>
     );

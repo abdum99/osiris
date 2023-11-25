@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
-import { Modal, Upload } from 'antd';
+import { Card, Modal, Upload, Button, Divider } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
+import axios from 'axios';
 
-import Jimp from 'jimp/es';
+import { InkyCarousel } from './InkyCarousel'
+
+// import Jimp from 'jimp/es';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -15,23 +18,24 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const convertBW = (file): Promise<File> => {
-    console.log("Converting Image to B&W");
-}
+// const convertBW = (file: File): Promise<File> => {
+//     console.log("Converting Image to B&W");
+//     return file
+// }
 
-const prepImage = async (file: RcFile) => {
-    Jimp.read("blah")
-      .then((image) => {
-        console.log("Read file Successfully!");
-      })
-      .catch((err) => {
-        console.log("FAILED");
-        console.log(err);
-      });
-    console.log("prepping image");
-    convertBW(file);
-    return false;
-}
+// const prepImage = async (file: RcFile) => {
+//     Jimp.read("blah")
+//       .then((image) => {
+//         console.log("Read file Successfully!");
+//       })
+//       .catch((err) => {
+//         console.log("FAILED");
+//         console.log(err);
+//       });
+//     console.log("prepping image");
+//     convertBW(file);
+//     return false;
+// }
 
 
 export const InkyPage: React.FC = () => {
@@ -64,19 +68,21 @@ export const InkyPage: React.FC = () => {
   );
   return (
     <>
+      <Card
+      >
+        <InkyCarousel />
+        <Divider />
         <ImgCrop
             quality={ 1 }
             aspect={ 1404 / 1872 }
             showGrid
         >
         <Upload
-            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
             accept="image/png, image/jpeg"
-            beforeUpload={(file) => prepImage(file, fileList)}
         >
             {fileList.length >= 8 ? null : uploadButton}
         </Upload>
@@ -84,6 +90,8 @@ export const InkyPage: React.FC = () => {
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
             <img alt="picture" style={{ width: '100%' }} src={previewImage} />
         </Modal>
+
+      </Card>
     </>
   );
 };

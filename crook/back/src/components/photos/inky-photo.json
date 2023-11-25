@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_photos_inky_photos",
+  "info": {
+    "displayName": "InkyPhoto",
+    "icon": "landscape"
+  },
+  "options": {},
+  "attributes": {
+    "bmp": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "private": true
+    },
+    "preview": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

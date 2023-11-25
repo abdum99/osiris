@@ -16,12 +16,10 @@
       "type": "integer"
     },
     "photos": {
-      "type": "media",
-      "multiple": true,
-      "required": true,
-      "allowedTypes": [
-        "images"
-      ]
+      "type": "component",
+      "repeatable": true,
+      "component": "photos.inky-photo",
+      "required": true
     }
   }
 }

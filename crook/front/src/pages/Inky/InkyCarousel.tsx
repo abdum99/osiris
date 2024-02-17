@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { React, useEffect, useState } from 'react';
 import { Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
 import { useList, HttpError } from "@refinedev/core";

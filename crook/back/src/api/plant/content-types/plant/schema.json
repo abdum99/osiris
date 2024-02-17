@@ -17,8 +17,11 @@
       "unique": true,
       "required": true
     },
-    "moisture": {
+    "curr_moisture": {
       "type": "integer"
+    },
+    "measurement_history": {
+      "type": "json"
     }
   }
 }

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { React, useEffect, useState } from 'react';
+import { React, useEffect, useState, useCallback } from 'react';
 import { Card, Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
 import { useList, HttpError } from "@refinedev/core";
 import axios from 'axios';
@@ -14,6 +14,7 @@ export const InkyCarousel: React.FC = () => {
     const [ photosReady, setPhotosReady ] = useState(false);
     const [ isUpdating, setIsLoading ] = useState(false);
     const [ currIndex, setCurrIndex ] = useState(0);
+    const [ previewIndex, setPreviewIndex ] = useState(currIndex);
 
     const { data, isLoading, isError } = useList({
     resource: "inky",
@@ -28,6 +29,10 @@ export const InkyCarousel: React.FC = () => {
             }
         }
     }
+    })
+
+    const handlePreview = useCallback( (previewIndex) => {
+        setPreviewIndex(previewIndex)
     })
 
     useEffect( () => {
@@ -62,10 +67,12 @@ export const InkyCarousel: React.FC = () => {
                 <Flex justify='center' align='center'>
                     <Image 
                         width={300}
-                        src={photos[currIndex]}
+                        src={photos[previewIndex]}
                         preview={false}
                         style={{
-                            padding: 20
+                            transform: "rotate(90deg)",
+                            marginTop: "80px",
+                            marginBottom: "80px",
                         }}
                     />
                 </Flex>
@@ -79,26 +86,44 @@ export const InkyCarousel: React.FC = () => {
                         src={photo}
                         preview={false}
                         style={{
-                            "padding": 5,
-                            "border": index == currIndex? "solid blue": ""
+                            transform: "rotate(90deg)",
+                            cursor: "pointer",
+                            border: index == currIndex? "3px solid green": "",
                         }}
+                        onClick={() => handlePreview(index)}
                     />
                 )}
                 </Flex>
                 </Content>
             </Flex>
             <Divider />
-            <Button type="primary" disabled={isUpdating} onClick={() => {
-            setIsLoading(true);
-            axios.get(API_URL + "/inky/next")
-            .then( async res => {
-                setCurrIndex(res?.data?.attributes?.current_index)
-                await new Promise(r => setTimeout(r, 1000))
-                setIsLoading(false);
-            })
-            }}>
-                Next Picture
-            </Button>
+            <Flex justify="center">
+                <Button
+                    type="primary"
+                    style={{
+                        margin: "2px"
+                    }}
+                >
+                    Paint It!
+                </Button>
+                <Button
+                    type="primary"
+                    disabled={isUpdating}
+                    style={{
+                        margin: "2px"
+                    }}
+                    onClick={() => {
+                        setIsLoading(true);
+                        axios.get(API_URL + "/inky/next")
+                        .then( async res => {
+                            setCurrIndex(res?.data?.attributes?.current_index)
+                            await new Promise(r => setTimeout(r, 1000))
+                            setIsLoading(false);
+                        })
+                }}>
+                    Next Picture
+                </Button>
+            </Flex>
         </Layout>
         </>
     );

@@ -28,6 +28,8 @@ import { PlantsPage } from "./pages/Plants/Plants";
 import { CoffeePage } from "./pages/Coffee/Coffee";
 import { InkyPage } from "./pages/Inky/Inky";
 
+import { ConfigProvider } from "antd"
+
 import {
   CoffeeOutlined,
   BgColorsOutlined
@@ -43,6 +45,9 @@ function App() {
   };
 
   return (
+    <ConfigProvider
+
+    >
     <BrowserRouter>
       <RefineKbarProvider>
         <ColorModeContextProvider>
@@ -161,6 +166,7 @@ function App() {
         </ColorModeContextProvider>
       </RefineKbarProvider>
     </BrowserRouter>
+    </ConfigProvider>
   );
 }
 

@@ -72,11 +72,21 @@ export const InkyCarousel: React.FC = () => {
                         style={{
                             transform: "rotate(90deg)",
                             marginTop: "80px",
-                            marginBottom: "80px",
+                            marginBottom: "50px",
                         }}
                     />
                 </Flex>
-                {/* <Divider /> */}
+                <Flex justify="center">
+                    <Button
+                        type="primary"
+                        style={{
+                            margin: "2px"
+                        }}
+                    >
+                        Paint It!
+                    </Button>
+                </Flex>
+                <Divider />
                 <Flex justify='center' align='center'>
                 {
                 photos.map((photo, index) =>
@@ -86,6 +96,7 @@ export const InkyCarousel: React.FC = () => {
                         src={photo}
                         preview={false}
                         style={{
+                            marginBottom: "30px",
                             transform: "rotate(90deg)",
                             cursor: "pointer",
                             border: index == currIndex? "3px solid green": "",
@@ -96,16 +107,7 @@ export const InkyCarousel: React.FC = () => {
                 </Flex>
                 </Content>
             </Flex>
-            <Divider />
             <Flex justify="center">
-                <Button
-                    type="primary"
-                    style={{
-                        margin: "2px"
-                    }}
-                >
-                    Paint It!
-                </Button>
                 <Button
                     type="primary"
                     disabled={isUpdating}

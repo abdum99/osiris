@@ -45,6 +45,7 @@ module.exports = createCoreService('api::inky.inky', ({ strapi }) => ({
 
             client.publish(MQTT_TOPIC, data, {
                 qos: 2,
+                retain: true,
             })
             strapi.log.info("published image!")
         })

@@ -10,8 +10,10 @@ const API_URL = API_ORIGIN + "/api"
 const { Header, Content, Footer, Sider } = Layout;
 
 export const InkyCarousel: React.FC = () => {
-    const [isUpdating, setIsLoading] = useState(false);
-    const [currIndex, setCurrIndex] = useState(0);
+    const [ photos, setPhotos ] = useState([]);
+    const [ photosReady, setPhotosReady ] = useState(false);
+    const [ isUpdating, setIsLoading ] = useState(false);
+    const [ currIndex, setCurrIndex ] = useState(0);
 
     const { data, isLoading, isError } = useList({
     resource: "inky",
@@ -28,30 +30,39 @@ export const InkyCarousel: React.FC = () => {
     }
     })
 
-    if (isLoading) {
-    return (
-        <Card>
-        Loading...
-        </Card>
-    );
+    useEffect( () => {
+        let workers = data?.data?.photos?.map( async (photo) => {
+            let res = await fetch(API_ORIGIN + photo?.preview?.formats?.small?.url);
+            return URL.createObjectURL(await res.blob());
+        })
+        const fetchPhotos = async () => {
+            setPhotosReady(false)
+            let fetched = await Promise.all(workers)
+            console.log("fetched:", fetched)
+            setPhotos(fetched)
+            setPhotosReady(true)
+        }
+        fetchPhotos()
+    }, [isLoading])
+
+    if (!photosReady) {
+        return (
+            <Content>
+                Loading...
+            </Content>
+        );
     }
 
-    console.log("should be loaded now")
-    console.log("inky:", data)
-
+    console.log("photos:", photos)
     return (
         <>
         <Layout>
             <Flex justify='center' align='center'>
                 <Content>
-                {isLoading?
-                <h1>Loading...</h1>
-                :
-                <>
                 <Flex justify='center' align='center'>
                     <Image 
                         width={300}
-                        src={API_ORIGIN + data?.data?.photos?.[currIndex]?.preview?.formats?.small?.url}
+                        src={photos[currIndex]}
                         preview={false}
                         style={{
                             padding: 20
@@ -61,33 +72,34 @@ export const InkyCarousel: React.FC = () => {
                 {/* <Divider /> */}
                 <Flex justify='center' align='center'>
                 {
-                    data?.data?.photos?.map((photo) =>
-                        <Image 
-                            key={"thumbnail" + photo?.id.toString()}
-                            width={50}
-                            src={API_ORIGIN + photo?.preview?.formats?.small?.url}
-                            preview={false}
-                        />
-                    )}
+                photos.map((photo, index) =>
+                    <Image 
+                        key={"thumbnail" + index.toString()}
+                        width={100}
+                        src={photo}
+                        preview={false}
+                        style={{
+                            "padding": 5,
+                            "border": index == currIndex? "solid blue": ""
+                        }}
+                    />
+                )}
                 </Flex>
-                </>
-                }
                 </Content>
             </Flex>
             <Divider />
+            <Button type="primary" disabled={isUpdating} onClick={() => {
+            setIsLoading(true);
+            axios.get(API_URL + "/inky/next")
+            .then( async res => {
+                setCurrIndex(res?.data?.attributes?.current_index)
+                await new Promise(r => setTimeout(r, 1000))
+                setIsLoading(false);
+            })
+            }}>
+                Next Picture
+            </Button>
         </Layout>
         </>
     );
 };
-
-            // <Button type="primary" disabled={isUpdating} onClick={() => {
-            // setIsLoading(true);
-            // axios.get(API_URL + "/inky/next")
-            // .then( async res => {
-            //     setCurrIndex(res?.data?.attributes?.current_index)
-            //     await new Promise(r => setTimeout(r, 1000))
-            //     setIsLoading(false);
-            // })
-            // }}>
-            //     Next Picture
-            // </Button>

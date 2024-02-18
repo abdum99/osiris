@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "antd-img-crop": "^4.13.0",
-    "jimp": "^0.22.10"
-  }
-}

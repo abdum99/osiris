@@ -23,17 +23,12 @@ import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { AuthPage } from "./pages/AuthPage";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
 
-import { ValPage } from "./pages/val";
+import {
+  PlantsPage,
+} from "./pages/Plants/Plants";
 import { CoffeePage } from "./pages/Coffee/Coffee";
 import { InkyPage } from "./pages/Inky/Inky";
-
 
 import {
   CoffeeOutlined,
@@ -81,12 +76,11 @@ function App() {
                 },
               },
               {
-                name: "Plants",
+                name: "plants",
                 list: "/plants",
-                edit: "/plants/edit/:id",
-                show: "/plants/show/:id",
+                show: "/plants/:id",
                 meta: {
-                  canDelete: true,
+                  canDelete: false,
                 },
               },
             ]}
@@ -119,13 +113,9 @@ function App() {
                   element={<InkyPage /> }
                 />
                 <Route path="/inky" element={ <InkyPage />} />
-                <Route path="/val" element={ <ValPage />} />
                 <Route path="/coffee" element={ <CoffeePage />} />
-                <Route path="/blog-posts">
-                  <Route index element={<BlogPostList />} />
-                  <Route path="create" element={<BlogPostCreate />} />
-                  <Route path="edit/:id" element={<BlogPostEdit />} />
-                  <Route path="show/:id" element={<BlogPostShow />} />
+                <Route path="/plants">
+                  <Route index element={<PlantsPage />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

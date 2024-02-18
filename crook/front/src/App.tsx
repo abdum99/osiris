@@ -20,13 +20,11 @@ import { DataProvider } from "@refinedev/strapi-v4";
 import { useTranslation } from "react-i18next";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider, axiosInstance } from "./authProvider";
-import { API_URL } from "./constants";
+import { API_ORIGIN } from "./constants";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { AuthPage } from "./pages/AuthPage";
 
-import {
-  PlantsPage,
-} from "./pages/Plants/Plants";
+import { PlantsPage } from "./pages/Plants/Plants";
 import { CoffeePage } from "./pages/Coffee/Coffee";
 import { InkyPage } from "./pages/Inky/Inky";
 
@@ -50,7 +48,7 @@ function App() {
         <ColorModeContextProvider>
           <Refine
             authProvider={authProvider}
-            dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
+            dataProvider={DataProvider(API_ORIGIN + `/api`, axiosInstance)}
             notificationProvider={notificationProvider}
             i18nProvider={i18nProvider}
             routerProvider={routerBindings}
@@ -112,8 +110,12 @@ function App() {
                   index
                   element={<InkyPage /> }
                 />
-                <Route path="/inky" element={ <InkyPage />} />
-                <Route path="/coffee" element={ <CoffeePage />} />
+                <Route path="/inky">
+                  <Route index element={ <InkyPage />} />
+                </Route>
+                <Route path="/coffee">
+                  <Route index element={ <CoffeePage />} />
+                </Route> 
                 <Route path="/plants">
                   <Route index element={<PlantsPage />} />
                 </Route>

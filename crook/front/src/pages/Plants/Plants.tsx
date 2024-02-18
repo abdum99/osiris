@@ -5,7 +5,7 @@ import { useList } from "@refinedev/core";
 import { Card } from "antd";
 import { Line } from "@ant-design/plots";
 
-export const PlantsPage: React.FC<IResourceComponentsProps> = () => {
+export const PlantsPage: React.FC = () => {
   const { data, isLoading, isErorr } = useList({
     resource: "plants",
     meta: {
@@ -31,10 +31,10 @@ export const PlantsPage: React.FC<IResourceComponentsProps> = () => {
   return (
     <>
     <Card>
-      <Line {...config} />
       <h2>
         PLANTS ROCK
       </h2>
+      <Line {...config} />
     </Card>
     </>
   )

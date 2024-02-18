@@ -1,48 +1,57 @@
 // @ts-nocheck
 import { React, useEffect, useState } from 'react';
-import { Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
+import { Card, Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
 import { useList, HttpError } from "@refinedev/core";
 import axios from 'axios';
 
+import { API_ORIGIN } from "../../constants";
+const API_URL = API_ORIGIN + "/api"
+
 const { Header, Content, Footer, Sider } = Layout;
 
-const API_URL = "http://10.0.0.14:1337";
-
 export const InkyCarousel: React.FC = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isUpdating, setIsLoading] = useState(false);
     const [currIndex, setCurrIndex] = useState(0);
-    const { data, isLoadinggg, isErrorgg } = useList({
-        resource: "inky",
-        meta: {
-            populate: {
-                photos: {
-                    populate: {
-                        preview: {
-                            fields: "formats"
-                        }
+
+    const { data, isLoading, isError } = useList({
+    resource: "inky",
+    meta: {
+        populate: {
+            photos: {
+                populate: {
+                    preview: {
+                        fields: "formats"
                     }
                 }
             }
         }
+    }
     })
-    useEffect(() => {
-        console.log("Called useEffect()");
-        setCurrIndex(data?.data?.current_index);
-    })
+
+    if (isLoading) {
+    return (
+        <Card>
+        Loading...
+        </Card>
+    );
+    }
+
+    console.log("should be loaded now")
+    console.log("inky:", data)
 
     return (
         <>
         <Layout>
             <Flex justify='center' align='center'>
                 <Content>
-                {isLoadinggg?
+                {isLoading?
                 <h1>Loading...</h1>
                 :
                 <>
                 <Flex justify='center' align='center'>
                     <Image 
                         width={300}
-                        src={API_URL + data?.data?.photos?.[currIndex]?.preview?.formats?.small?.url}
+                        src={API_ORIGIN + data?.data?.photos?.[currIndex]?.preview?.formats?.small?.url}
                         preview={false}
                         style={{
                             padding: 20
@@ -54,8 +63,9 @@ export const InkyCarousel: React.FC = () => {
                 {
                     data?.data?.photos?.map((photo) =>
                         <Image 
+                            key={"thumbnail" + photo?.id.toString()}
                             width={50}
-                            src={API_URL + photo?.preview?.formats?.small?.url}
+                            src={API_ORIGIN + photo?.preview?.formats?.small?.url}
                             preview={false}
                         />
                     )}
@@ -65,18 +75,19 @@ export const InkyCarousel: React.FC = () => {
                 </Content>
             </Flex>
             <Divider />
-            <Button type="primary" disabled={isLoading} onClick={() => {
-            setIsLoading(true);
-            axios.get("http://10.0.0.14:1337/api/inky/next")
-            .then( async res => {
-                setCurrIndex(res?.data?.data?.attributes?.current_index)
-                await new Promise(r => setTimeout(r, 1000))
-                setIsLoading(false);
-            })
-            }}>
-                Next Picture
-            </Button>
         </Layout>
         </>
     );
 };
+
+            // <Button type="primary" disabled={isUpdating} onClick={() => {
+            // setIsLoading(true);
+            // axios.get(API_URL + "/inky/next")
+            // .then( async res => {
+            //     setCurrIndex(res?.data?.attributes?.current_index)
+            //     await new Promise(r => setTimeout(r, 1000))
+            //     setIsLoading(false);
+            // })
+            // }}>
+            //     Next Picture
+            // </Button>

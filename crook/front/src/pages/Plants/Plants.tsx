@@ -6,31 +6,32 @@ import { Card } from "antd";
 import { Line } from "@ant-design/plots";
 
 export const PlantsPage: React.FC<IResourceComponentsProps> = () => {
-  const { data, isDataLoaded } = useList({
+  const { data, isLoading, isErorr } = useList({
     resource: "plants",
     meta: {
       fields: "*",
     },
   })
 
-  if (isDataLoaded) {
-    console.log(data)
+  if (isLoading) {
+    return (
+      <Card>
+        Loading...
+      </Card>
+    );
   }
 
   const config = {
-    data: isDataLoaded? data.data[0].measurement_history: {},
+    data: isLoading? {} : data.data[2].measurement_history,
     padding: 'auto',
-    xField: ''
+    xField: 'time',
+    yField: "moisture",
   }
 
   return (
     <>
     <Card>
-      {isDataLoaded?
       <Line {...config} />
-      :
-      <></>
-      }
       <h2>
         PLANTS ROCK
       </h2>

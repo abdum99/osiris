@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { React, useEffect, useState, useCallback } from 'react';
-import { Card, Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
+import { Card, Input, Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
+import { FormatPainterOutlined, CloseOutlined, PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
 import { useList, HttpError } from "@refinedev/core";
 import axios from 'axios';
 
@@ -61,72 +62,83 @@ export const InkyCarousel: React.FC = () => {
     console.log("photos:", photos)
     return (
         <>
-        <Layout>
-            <Flex justify='center' align='center'>
-                <Content>
-                <Flex justify='center' align='center'>
-                    <Image 
-                        width={300}
-                        src={photos[previewIndex]}
-                        preview={false}
-                        style={{
-                            transform: "rotate(90deg)",
-                            marginTop: "80px",
-                            marginBottom: "50px",
-                        }}
-                    />
-                </Flex>
-                <Flex justify="center">
+        <Flex justify='center' align='center'>
+            <Card
+                title="Inky"
+                bordered={false}
+                description="Inky is picture frame"
+                actions={[
+                    <CloseOutlined key="close" />,
                     <Button
-                        type="primary"
-                        style={{
-                            margin: "2px"
-                        }}
+                        type="text"
+                        block
+                        disabled={true}
+                        icon={<PauseOutlined key="pause" />}
                     >
-                        Paint It!
-                    </Button>
-                </Flex>
-                <Divider />
-                <Flex justify='center' align='center'>
-                {
-                photos.map((photo, index) =>
-                    <Image 
-                        key={"thumbnail" + index.toString()}
-                        width={100}
-                        src={photo}
-                        preview={false}
-                        style={{
-                            marginBottom: "30px",
-                            transform: "rotate(90deg)",
-                            cursor: "pointer",
-                            border: index == currIndex? "3px solid green": "",
-                        }}
-                        onClick={() => handlePreview(index)}
-                    />
-                )}
-                </Flex>
-                </Content>
-            </Flex>
-            <Flex justify="center">
-                <Button
-                    type="primary"
-                    disabled={isUpdating}
+                        Pause
+                    </Button>,
+                    <Button
+                        type="text"
+                        block
+                        icon={<StepForwardOutlined key="forward" />}
+                        disabled={isUpdating}
+                        onClick={() => {
+                            setIsLoading(true);
+                            axios.get(API_URL + "/inky/next")
+                            .then( async res => {
+                                setCurrIndex(res?.data?.attributes?.current_index)
+                                await new Promise(r => setTimeout(r, 1000))
+                                setIsLoading(false);
+                            })
+                        }}>
+                        Next
+                    </Button>,
+                ]}>
+            <Content>
+                <Image 
+                    width={500}
+                    src={photos[currIndex]}
+                    preview={false}
                     style={{
-                        margin: "2px"
+                        transform: "rotate(90deg)",
+                        marginTop: "80px",
+                        marginBottom: "80px",
                     }}
-                    onClick={() => {
-                        setIsLoading(true);
-                        axios.get(API_URL + "/inky/next")
-                        .then( async res => {
-                            setCurrIndex(res?.data?.attributes?.current_index)
-                            await new Promise(r => setTimeout(r, 1000))
-                            setIsLoading(false);
-                        })
-                }}>
-                    Next Picture
-                </Button>
-            </Flex>
-        </Layout>
+                />
+            </Content>
+            </Card>
+        </Flex>
+        <Divider />
+        <Flex justify='center' align='center'>
+        {
+        photos.map((photo, index) =>
+            <Input
+                type="image"
+                key={"thumbnail" + index.toString()}
+                style={{
+                    marginBottom: "30px",
+                    transform: "rotate(90deg)",
+                    border: index == previewIndex? "3px solid #4096ff": "",
+                    width: "100px"
+                }}
+                src={photo}
+                onClick={() => handlePreview(index)}
+            />
+        )}
+        </Flex>
+        <Flex justify="center">
+            <Button
+                type="primary"
+                icon={
+                    <FormatPainterOutlined />
+                }
+                style={{
+                    margin: "2px"
+                }}
+            >
+                Paint It!
+            </Button>
+        </Flex>
         </>
     );
 };

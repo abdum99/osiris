@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
-import { Card, Modal, Upload, Button, Divider } from 'antd';
+import { Card, Modal, Upload, Button, Flex, Divider, Typography } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import axios from 'axios';
@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useList } from "@refinedev/core";
 
 import { InkyCarousel } from './InkyCarousel'
+
+const { Title } = Typography;
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -68,9 +70,12 @@ export const InkyPage: React.FC = () => {
   return (
     <>
       <Card
+        title="Inky"
       >
         <InkyCarousel />
         <Divider />
+        <Title level={3}>Upload New Image</Title>
+        <Flex justify="center">
         <ImgCrop
             quality={ 1 }
             aspect={ 1404 / 1872 }
@@ -89,6 +94,7 @@ export const InkyPage: React.FC = () => {
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
             <img alt="picture" style={{ width: '100%' }} src={previewImage} />
         </Modal>
+        </Flex>
 
       </Card>
     </>

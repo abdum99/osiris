@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
+import { HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
-import { Card, Modal, Upload, Button, Flex, Divider, Typography } from 'antd';
+import { Breadcrumb, Card, Modal, Upload, Button, Flex, Divider, Typography } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 import { useList } from "@refinedev/core";
 
@@ -69,6 +70,16 @@ export const InkyPage: React.FC = () => {
   );
   return (
     <>
+      <Breadcrumb
+        items={[
+          {
+            title: <Link to="/"><HomeOutlined /> Home</Link>,
+          },
+          {
+            title: <Link to="/inky">Inky</Link>,
+          },
+        ]}
+      />
       <Card
         title="Inky"
       >

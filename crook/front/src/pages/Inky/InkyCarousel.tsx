@@ -82,7 +82,7 @@ export const InkyCarousel: React.FC = () => {
         <>
         <Flex justify='center' align='center'>
             <Card
-                title="Inky"
+                // title="Inky"
                 bordered={false}
                 description="Inky is picture frame"
                 actions={[

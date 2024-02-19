@@ -2,7 +2,7 @@
 import { React, useEffect, useState, useCallback } from 'react';
 import { Card, Input, Image, Divider, Button, Carousel, Flex, Layout } from 'antd';
 import { FormatPainterOutlined, CloseOutlined, PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
-import { useList, HttpError } from "@refinedev/core";
+import { useList, useApiUrl, useCustom, HttpError } from "@refinedev/core";
 import axios from 'axios';
 
 import { API_ORIGIN } from "../../constants";
@@ -13,8 +13,9 @@ const { Header, Content, Footer, Sider } = Layout;
 export const InkyCarousel: React.FC = () => {
     const [ photos, setPhotos ] = useState([]);
     const [ photosReady, setPhotosReady ] = useState(false);
-    const [ isUpdating, setIsLoading ] = useState(false);
+    const [ isUpdating, setIsUpdating ] = useState(false);
     const [ currIndex, setCurrIndex ] = useState(0);
+
     const [ previewIndex, setPreviewIndex ] = useState(currIndex);
 
     const { data, isLoading, isError } = useList({
@@ -36,6 +37,16 @@ export const InkyCarousel: React.FC = () => {
         setPreviewIndex(previewIndex)
     })
 
+    const handleUpdate = (newIndex) => {
+        setIsUpdating(true);
+        axios.get(API_URL + "/inky/next")
+            .then( async (res) => {
+                await new Promise(r => setTimeout(r, 2000)) // wait 2s to give inky time to update
+                setCurrIndex(newIndex)
+                setIsUpdating(false);
+            })
+    }
+
     useEffect( () => {
         let workers = data?.data?.photos?.map( async (photo) => {
             let res = await fetch(API_ORIGIN + photo?.preview?.formats?.small?.url);
@@ -44,12 +55,20 @@ export const InkyCarousel: React.FC = () => {
         const fetchPhotos = async () => {
             setPhotosReady(false)
             let fetched = await Promise.all(workers)
-            console.log("fetched:", fetched)
             setPhotos(fetched)
+            setCurrIndex(data?.data?.current_index)
             setPhotosReady(true)
         }
         fetchPhotos()
-    }, [isLoading])
+    }, [data])
+
+    if (isLoading) {
+        return (
+            <Content>
+                Loading...
+            </Content>
+        );
+    }
 
     if (!photosReady) {
         return (
@@ -59,7 +78,6 @@ export const InkyCarousel: React.FC = () => {
         );
     }
 
-    console.log("photos:", photos)
     return (
         <>
         <Flex justify='center' align='center'>
@@ -68,7 +86,14 @@ export const InkyCarousel: React.FC = () => {
                 bordered={false}
                 description="Inky is picture frame"
                 actions={[
-                    <CloseOutlined key="close" />,
+                    <Button
+                        type="text"
+                        block
+                        disabled={true}
+                        icon={<CloseOutlined key="close" />}
+                    >
+                        Remove
+                    </Button>,
                     <Button
                         type="text"
                         block
@@ -81,16 +106,9 @@ export const InkyCarousel: React.FC = () => {
                         type="text"
                         block
                         icon={<StepForwardOutlined key="forward" />}
-                        disabled={isUpdating}
-                        onClick={() => {
-                            setIsLoading(true);
-                            axios.get(API_URL + "/inky/next")
-                            .then( async res => {
-                                setCurrIndex(res?.data?.attributes?.current_index)
-                                await new Promise(r => setTimeout(r, 1000))
-                                setIsLoading(false);
-                            })
-                        }}>
+                        loading={isUpdating}
+                        onClick={() => handleUpdate((currIndex + 1) % photos.length)}
+                    >
                         Next
                     </Button>,
                 ]}>

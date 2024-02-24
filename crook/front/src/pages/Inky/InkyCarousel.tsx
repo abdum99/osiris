@@ -15,8 +15,8 @@ export const InkyCarousel: React.FC = () => {
     const [ photosReady, setPhotosReady ] = useState(false);
     const [ isUpdating, setIsUpdating ] = useState(false);
     const [ currIndex, setCurrIndex ] = useState(0);
-
-    const [ previewIndex, setPreviewIndex ] = useState(currIndex);
+    const [ clickIndex, setClickIndex ] = useState(0);
+    const [ displayIndex, setDisplayIndex ] = useState(0);
 
     const { data, isLoading, isError } = useList({
     resource: "inky",
@@ -33,21 +33,36 @@ export const InkyCarousel: React.FC = () => {
     }
     })
 
-    const handlePreview = useCallback( (previewIndex) => {
-        setPreviewIndex(previewIndex)
+    const handleClick = useCallback( (index) => {
+        setClickIndex(index)
     })
+
+    // TODO: handle click anywhere else
+    // setClickIndex(undefined)
+
+    const handleMouseEnter = (index) => {
+        setDisplayIndex(index)
+    }
+
+    const handleMouseLeave = () => {
+        setDisplayIndex(clickIndex !== undefined? clickIndex : currIndex)
+    }
 
     const handleUpdate = (newIndex) => {
         setIsUpdating(true);
         axios.get(API_URL + "/inky/next")
             .then( async (res) => {
                 await new Promise(r => setTimeout(r, 2000)) // wait 2s to give inky time to update
-                setCurrIndex(newIndex)
+                console.log(res)
+                setCurrIndex(res?.data?.data?.attributes?.current_index)
                 setIsUpdating(false);
             })
     }
 
     useEffect( () => {
+        if (isLoading) {
+            return
+        }
         let workers = data?.data?.photos?.map( async (photo) => {
             let res = await fetch(API_ORIGIN + photo?.preview?.formats?.small?.url);
             return URL.createObjectURL(await res.blob());
@@ -60,7 +75,7 @@ export const InkyCarousel: React.FC = () => {
             setPhotosReady(true)
         }
         fetchPhotos()
-    }, [data])
+    }, [data, isLoading])
 
     if (isLoading) {
         return (
@@ -82,14 +97,13 @@ export const InkyCarousel: React.FC = () => {
         <>
         <Flex justify='center' align='center'>
             <Card
-                // title="Inky"
                 bordered={false}
                 description="Inky is picture frame"
                 actions={[
                     <Button
                         type="text"
+                        danger
                         block
-                        disabled={true}
                         icon={<CloseOutlined key="close" />}
                     >
                         Remove
@@ -113,16 +127,25 @@ export const InkyCarousel: React.FC = () => {
                     </Button>,
                 ]}>
             <Content>
+                <Flex
+                    justify="center"
+                    align="center"
+                    style={{
+                        border: "50px solid black",
+                        backgroundColor: "white",
+                        height: "600px",
+                        width: "500px",
+                    }}
+                >
                 <Image 
                     width={500}
-                    src={photos[currIndex]}
+                    src={photos[displayIndex]}
                     preview={false}
                     style={{
                         transform: "rotate(90deg)",
-                        marginTop: "80px",
-                        marginBottom: "80px",
                     }}
                 />
+                </Flex>
             </Content>
             </Card>
         </Flex>
@@ -136,11 +159,13 @@ export const InkyCarousel: React.FC = () => {
                 style={{
                     marginBottom: "30px",
                     transform: "rotate(90deg)",
-                    border: index == previewIndex? "3px solid #4096ff": "",
-                    width: "100px"
+                    border: index == clickIndex? "3px solid #4096ff": index == currIndex? "1px solid #2076df": "",
+                    width: index == displayIndex? "100px" : "90px"
                 }}
                 src={photo}
-                onClick={() => handlePreview(index)}
+                onClick={() => handleClick(index)}
+                onMouseEnter={ () => handleMouseEnter(index) }
+                onMouseLeave={ () => handleMouseLeave() }
             />
         )}
         </Flex>

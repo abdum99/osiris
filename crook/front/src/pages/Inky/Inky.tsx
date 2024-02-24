@@ -11,6 +11,8 @@ import { useList } from "@refinedev/core";
 
 import { InkyCarousel } from './InkyCarousel'
 
+// import Jimp from 'jimp';
+
 const { Title } = Typography;
 
 const getBase64 = (file: RcFile): Promise<string> =>

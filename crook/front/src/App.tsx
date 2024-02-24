@@ -22,18 +22,19 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_ORIGIN } from "./constants";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { AuthPage } from "./pages/AuthPage";
-
-import { PlantsPage } from "./pages/Plants/Plants";
-import { CoffeePage } from "./pages/Coffee/Coffee";
-import { InkyPage } from "./pages/Inky/Inky";
-
-import { ConfigProvider } from "antd"
 
 import {
   CoffeeOutlined,
   BgColorsOutlined
 } from "@ant-design/icons";
+
+import {
+  AuthPage,
+  HomePage,
+  InkyPage,
+  CoffeePage,
+  PlantsPage,
+} from "./pages";
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -45,12 +46,9 @@ function App() {
   };
 
   return (
-    <ConfigProvider
-
-    >
     <BrowserRouter>
-      <RefineKbarProvider>
-        <ColorModeContextProvider>
+    <ColorModeContextProvider>
+    <RefineKbarProvider>
           <Refine
             authProvider={authProvider}
             dataProvider={DataProvider(API_ORIGIN + `/api`, axiosInstance)}
@@ -113,7 +111,7 @@ function App() {
               >
                 <Route
                   index
-                  element={<InkyPage /> }
+                  element={<HomePage /> }
                 />
                 <Route path="/inky">
                   <Route index element={ <InkyPage />} />
@@ -163,10 +161,9 @@ function App() {
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />
           </Refine>
-        </ColorModeContextProvider>
-      </RefineKbarProvider>
+    </RefineKbarProvider>
+    </ColorModeContextProvider>
     </BrowserRouter>
-    </ConfigProvider>
   );
 }
 

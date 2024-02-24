@@ -6,7 +6,7 @@ import { Card } from "antd";
 import { Line } from "@ant-design/plots";
 
 export const PlantsPage: React.FC = () => {
-  const { data, isLoading, isErorr } = useList({
+  const { data, isLoading, isError } = useList({
     resource: "plants",
     meta: {
       fields: "*",
@@ -22,7 +22,7 @@ export const PlantsPage: React.FC = () => {
   }
 
   const config = {
-    data: isLoading? {} : data.data[2].measurement_history,
+    data: isLoading? {} : data?.data[2]?.measurement_history,
     padding: 'auto',
     xField: 'time',
     yField: "moisture",

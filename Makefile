@@ -9,8 +9,10 @@ DEV_FRONT_COMMAND:="npm run dev --dev -- --host"
 
 dev:
 # BACKEND
-	tmux new-session -d -s $(DEV_TMUX_SESS) -c $(CROOK_DIR)/back $(DEV_BACK_COMMAND)
-	tmux split-window -t $(DEV_TMUX_SESS) -h -c $(CROOK_DIR)/front $(DEV_FRONT_COMMAND)
+# 	tmux new-session -d -s $(DEV_TMUX_SESS) -c $(CROOK_DIR)/back $(DEV_BACK_COMMAND)
+#
+# FRONTEND
+	#tmux split-window -t $(DEV_TMUX_SESS) -h -c $(CROOK_DIR)/front $(DEV_FRONT_COMMAND)
 
 prod:
 	echo "TODO"

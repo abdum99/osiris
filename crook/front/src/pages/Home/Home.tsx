@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { Row, Col, Flex, Button, Card } from 'antd'
-import { BgColorsOutlined, CoffeeOutlined } from '@ant-design/icons'
+
+import { PiPaintBrushFill } from "react-icons/pi";
+import { GiCoffeePot } from "react-icons/gi";
+import { PiPottedPlantFill } from "react-icons/pi";
 
 import { Link } from 'react-router-dom'
 
@@ -27,23 +30,25 @@ export const HomePage: React.FC = () => {
             >
                 <Flex>
                     <Link to="/inky">
-                    <Button
-                        style={buttonStyle}
-                        icon={<BgColorsOutlined height={100} width={100} />}
-                    />
+                        <Button
+                            style={buttonStyle}
+                            icon={<PiPaintBrushFill />}
+                        />
                     </Link>
-                    <Link to="/coffee">
-                    <Button
-                        style={buttonStyle}
-                        icon={<CoffeeOutlined height={100} width={100} />}
-                    />
+                    <Link to="/plants">
+                        <Button
+                            style={buttonStyle}
+                            icon={<PiPottedPlantFill />}
+                        />
                     </Link>
                 </Flex>
                 <Flex>
-                    <Button
-                        style={buttonStyle}
-                        // icon={<CoffeeOutlined height={100} width={100} />}
-                    />
+                    <Link to="/coffee">
+                        <Button
+                            style={buttonStyle}
+                            icon={<GiCoffeePot />}
+                        />
+                    </Link>
                     <Button
                         style={buttonStyle}
                         // icon={<CoffeeOutlined height={100} width={100} />}

@@ -5,8 +5,8 @@
 Osiris uses MQTT to communicate. Make sure to install an mqtt broker and run it on port 1883
 Eclipse's mosquitto is a great open source one
 ### MQTT Broker
-On linux, you can use:
-# and these for the binary
+Install the mosquitto binaries
+```
 sudo apt-get install mosquitto mosquitto-clients
 ```
 Best way to start the MQTT Broker is probably to run it as systemd service

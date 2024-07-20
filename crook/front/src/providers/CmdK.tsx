@@ -1,13 +1,15 @@
 import "react-cmdk/dist/cmdk.css";
 import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import { PiPaintBrushFill, PiPottedPlantFill } from "react-icons/pi";
 
+import { StoreContext } from '../contexts/StoreContext'
+
 export const CmdK = () => {
   const [page, setPage] = useState<"root" | "projects">("root");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [search, setSearch] = useState("");
+  const { cmdKOpen, setCmdKOpen } = useContext(StoreContext);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -20,12 +22,12 @@ export const CmdK = () => {
         e.preventDefault();
         e.stopPropagation();
   
-        setIsOpen((currentValue) => {
+        setCmdKOpen((currentValue) => {
           return !currentValue;
         });
       }
     }
-  
+
     document.addEventListener("keydown", handleKeyDown);
   
     return () => {
@@ -53,20 +55,16 @@ export const CmdK = () => {
           {
             id: "inky",
             children: "Inky",
-            icon: <PiPaintBrushFill />,
+            icon: PiPaintBrushFill,
             closeOnSelect: false,
             href: "/inky"
           },
           {
             id: "plants",
             children: "Plants",
-            icon: <PiPottedPlantFill />,
+            icon: PiPottedPlantFill,
             closeOnSelect: false,
             href: "/plants"
-          },
-          {
-            id: "zt",
-            href: "/zt"
           },
         ],
       },
@@ -103,9 +101,9 @@ export const CmdK = () => {
   return (
     <CommandPalette
       onChangeSearch={setSearch}
-      onChangeOpen={setIsOpen}
+      onChangeOpen={setCmdKOpen}
       search={search}
-      isOpen={isOpen}
+      isOpen={cmdKOpen}
       page={page}
     >
       <CommandPalette.Page id="root">

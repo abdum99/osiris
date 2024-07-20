@@ -29,6 +29,7 @@ import { GiCoffeePot } from "react-icons/gi";
 
 import { API_ORIGIN } from "./constants";
 import { ColorModeContextProvider } from "./contexts/color-mode";
+import { StoreContextProvider } from "./contexts/StoreContext"
 
 import { authProvider, axiosInstance } from "./authProvider";
 import { CmdK } from './providers';
@@ -54,8 +55,10 @@ function App() {
 
   return (
     <BrowserRouter>
+    <StoreContextProvider>
     <ColorModeContextProvider>
     <Refine
+      disableTelemetry
       authProvider={authProvider}
       dataProvider={DataProvider(API_ORIGIN + `/api`, axiosInstance)}
       notificationProvider={notificationProvider}
@@ -173,6 +176,7 @@ function App() {
       <DocumentTitleHandler />
     </Refine>
     </ColorModeContextProvider>
+    </StoreContextProvider>
     </BrowserRouter>
   );
 }

@@ -43,7 +43,7 @@ export const PlantsPage: React.FC = () => {
     <>
     <Row>
       <Col span={16}>
-        <Card>
+        <Card bordered={false}>
           <h2>
             PLANTS ROCK
           </h2>
@@ -51,7 +51,9 @@ export const PlantsPage: React.FC = () => {
         </Card>
       </Col>
       <Col span={4}>
+        <Card bordered={false}>
         <Liquid {...liquidConfig} />;
+        </Card>
       </Col>
     </Row>
     </>

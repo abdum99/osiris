@@ -1,0 +1,38 @@
+services:
+  backend:
+    container_name: osiris_backend
+    build: web/back
+    # image: osiris-frontend
+    ports:
+      - 1337:1337
+    # develop:
+    #   watch:
+    #     - action: sync
+    #       path: web/back
+    #       target: /opt/app
+    depends_on:
+      - mqtt
+    restart: always
+
+  frontend:
+    container_name: osiris_frontend
+    build: web/front
+    # image: osiris-backend
+    ports:
+      - 80:5173
+    develop:
+      watch:
+        - action: sync
+          path: web/front
+          target: /app
+    depends_on:
+      - mqtt
+    restart: always
+
+  mqtt:
+    container_name: mqtt
+    image: mqtt
+    ports:
+      - 1883:1883
+    # build: mqtt
+    restart: always
